@@ -2,3 +2,6 @@ node_modules
 dist
 .jshintrc
 npm-debug.log
+assets/.DS_Store
+src/.DS_Store
+.DS_Store
