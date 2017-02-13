@@ -1,0 +1,6 @@
+How to run the application
+
+1. First of all make sure that Node.js is installed on the computer (The app was made by using node 6.x).
+2. Run “npm install”
+3. Run “npm run serve”
+4. After a few seconds you can visit the app by going to “http://localhost:8001”
