@@ -1,41 +1,49 @@
-body { 
+body {
     padding-top: 50px;
     height: 100%;
 }
+
 .movie-list {
-	list-style: none;
+    list-style: none;
     margin: 0;
     padding: 0;
 }
+
 .list-container div {
-	margin-bottom: 10px;
+    margin-bottom: 10px;
 }
+
 .list-container {
-	min-height: 500px;
+    min-height: 500px;
     padding: 8px;
 }
+
 .info-container {
-	margin-left: -40px;
+    margin-left: -40px;
 }
+
 .youtube-videos-container {
-	width: 90%;
+    width: 90%;
 }
+
 .details-container {
-	display: none;
+    display: none;
 }
+
 .spinner {
-	display: none;
-	position: fixed;
-	left: 50%;
-	top: 50%;
-	z-index: 10;
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    z-index: 10;
 }
-@media all and (max-width : 767px) {
+
+@media all and (max-width: 767px) {
     .list-container {
-    	text-align: center;
+        text-align: center;
         min-height: auto !important;
-    } 
+    }
     .info-container {
-    	margin: 0;
+        margin: 0;
     }
 }

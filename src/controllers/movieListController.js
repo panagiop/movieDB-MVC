@@ -6,15 +6,15 @@ const config = require('../../config'),
     movieDetailsController = require('./movieDetailsController'),
     appendItemsToTemplate = require('../helpers/appendItemsToTemplate');
 
-let nowPlayingControllerObject = {
+let movieListControllerObject = {
     page: 1, // current page in endpoint
     isSearchEndpointUsed: false,
-    init () {
+    init() {
         this.cacheDom();
         this.bindEvents();
         this.chainResponses(this.fetchNowPlayings(), this.fetchGenres());
     },
-    cacheDom () {
+    cacheDom() {
         this.$window = $(window);
         this.$document = $(document);
         this.$body = $('body');
@@ -24,31 +24,35 @@ let nowPlayingControllerObject = {
         this.$detailsBtnClass = '.details-button';
         this.$headerContent = $('.header-content');
     },
-    bindEvents () {
+    bindEvents() {
         this.$window.scroll(this.fetchNextPage.bind(this));
         this.$body.on('keyup', this.search.bind(this));
         this.$body.on('click', this.$detailsBtnClass, this.showDetails.bind(this));
         this.$input.on('keyup', this.changeHeaderContent.bind(this));
     },
-    render (...args) {
+    render(...args) {
         return appendItemsToTemplate(...args);
     },
-    fetchNowPlayings () {
-        return fetchDataService(config.xhrOptions.nowPlayingUrl, { 
-            page: this.page, spinnerClass: this.$spinnerClass 
-        }); 
-    },
-    fetchGenres () {
-        return fetchDataService( config.xhrOptions.genresUrl, {
-            spinnerClass: this.$spinnerClass 
+    fetchNowPlayings() {
+        return fetchDataService(config.xhrOptions.nowPlayingUrl, {
+            page: this.page,
+            spinnerClass: this.$spinnerClass
         });
     },
-    fetchSearchResults () {
-        return fetchDataService( config.xhrOptions.searchUrl, {
-            page: this.page, spinnerClass: this.$spinnerClass, query: this.$input.val() 
+    fetchGenres() {
+        return fetchDataService(config.xhrOptions.genresUrl, {
+            spinnerClass: this.$spinnerClass,
+            query: 'gn'
         });
     },
-    chainResponses (...promises) {
+    fetchSearchResults() {
+        return fetchDataService(config.xhrOptions.searchUrl, {
+            page: this.page,
+            spinnerClass: this.$spinnerClass,
+            query: this.$input.val()
+        });
+    },
+    chainResponses(...promises) {
         $.when(
             promises[0],
             promises[1]
@@ -69,13 +73,13 @@ let nowPlayingControllerObject = {
             alert('An error occured completing the requests');
         });
     },
-    search (event) {
+    search(event) {
         // allow only characters, numbers, backspace and spacebar
         let input = String.fromCharCode(event.keyCode);
-        if ( !/[a-zA-Z0-9-_\b ]/.test(input) || event.keyCode === '13') { return; }
+        if ( !/[a-zA-Z0-9-_\b ]/.test(input) || event.keyCode === '13' ) {
+            return; }
 
         this.isSearchEndpointUsed = true;
-
         if ( !this.$input.val().length ) {
             this.$body.scrollTop(0);
             this.$list.empty();
@@ -91,10 +95,10 @@ let nowPlayingControllerObject = {
             return this.chainResponses(this.fetchSearchResults(), this.fetchGenres());
         }
     },
-    fetchNextPage () {
+    fetchNextPage() {
         if ( this.$window.scrollTop() + this.$window.height() === this.$document.height() 
-            && this.$window.scrollTop() !== 0 ) {
-            
+                && this.$window.scrollTop() !== 0 ) {
+
             this.page++;
 
             if ( !this.isSearchEndpointUsed ) {
@@ -104,11 +108,11 @@ let nowPlayingControllerObject = {
             }
         }
     },
-    showDetails (event) {
-        let targetElement = $(event.target).closest('.list-container');
-        let elementId = targetElement.attr('id');
-        let elementClass = targetElement.find('.details-container');
-        let detailsBtn = targetElement.find('.details-button');
+    showDetails(event) {
+        let targetElement = $(event.target).closest('.list-container'),
+            elementId = targetElement.attr('id'),
+            elementClass = targetElement.find('.details-container'),
+            detailsBtn = targetElement.find('.details-button');
 
         // avoid api calls in case movie details section has previously visited
         if ( elementClass.css('display') === 'none' && !elementClass.hasClass('isVisited') ) {
@@ -121,10 +125,10 @@ let nowPlayingControllerObject = {
             detailsBtn.text('View details');
         }
     },
-    changeHeaderContent () {
-        if ( this.$input.val().length && this.$input.val().length > 2) {
+    changeHeaderContent() {
+        if ( this.$input.val().length && this.$input.val().length > 2 ) {
             return this.$headerContent.text(`Showing results for: ${this.$input.val()}`);
-        } 
+        }
 
         if ( !this.$input.val().length ) {
             return this.$headerContent.text('In Theaters');
@@ -132,4 +136,4 @@ let nowPlayingControllerObject = {
     }
 };
 
-module.exports = nowPlayingControllerObject;
+module.exports = movieListControllerObject;

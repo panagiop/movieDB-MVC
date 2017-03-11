@@ -2,7 +2,7 @@
 
 const config = require('../../config');
 
-let nowPlayingListTemplate = movie => 
+let nowPlayingListTemplate = movie =>
     `<div class="col-sm-6 col-md-6 list-container" id="${movie.id}"> 
 		<div class="col-sm-6 col-md-6">
 			<img class="" src="${config.urlOptions.urlImagesw185}/${movie.poster_path}" alt="${movie.original_title}">

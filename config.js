@@ -1,6 +1,6 @@
 const urlOptions = {
     urlPrefix: "https://api.themoviedb.org/3",
-    urlPostfix: "language=en-US&api_key=bc50218d91157b1ba4f142ef7baaa6a0",
+    urlPostfix: "language=en-US&api_key=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX", // enter your api_key 
     urlImagesw185: "https://image.tmdb.org/t/p/w185"
 };
 
